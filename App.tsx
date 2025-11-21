@@ -1,26 +1,143 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { fetchReleases } from './services/githubService';
 import { GithubRelease, MirrorSource } from './types';
 import ReleaseCard from './components/ReleaseCard';
-import { ServerIcon, GitHubIcon, AndroidIcon, WindowsIcon } from './components/Icons';
+import { ServerIcon, GitHubIcon, AndroidIcon, WindowsIcon, AppleIcon, QuestionMarkIcon } from './components/Icons';
 import PersonalNotice from './components/PersonalNotice';
 
-type RepoType = 'v2rayN' | 'v2rayNG';
+interface RepoConfig {
+  id: string;
+  displayName: string;
+  owner: string;
+  repo: string;
+  Icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  colorClass: string;
+  platform: string;
+  recommendedAssetPattern?: RegExp;
+}
+
+const REPO_CONFIG: RepoConfig[] = [
+  {
+    id: 'v2rayN',
+    displayName: 'v2rayN',
+    owner: '2dust',
+    repo: 'v2rayN',
+    Icon: WindowsIcon,
+    colorClass: 'bg-primary',
+    platform: 'Windows (PC)',
+    recommendedAssetPattern: /v2rayN-Core\.zip$/i,
+  },
+  {
+    id: 'v2rayNG',
+    displayName: 'v2rayNG',
+    owner: '2dust',
+    repo: 'v2rayNG',
+    Icon: AndroidIcon,
+    colorClass: 'bg-green-500',
+    platform: 'Android (手机)',
+    recommendedAssetPattern: /universal-release\.apk$/i,
+  },
+  {
+    id: 'clash-for-windows',
+    displayName: 'Clash for Windows',
+    owner: 'Fndroid',
+    repo: 'clash_for_windows_pkg',
+    Icon: WindowsIcon,
+    colorClass: 'bg-blue-500',
+    platform: 'Windows (PC)',
+    recommendedAssetPattern: /Clash\.for\.Windows.*\.exe$/i,
+  },
+  {
+    id: 'clashx',
+    displayName: 'ClashX',
+    owner: 'yichengchen',
+    repo: 'clashX',
+    Icon: AppleIcon,
+    colorClass: 'bg-gray-700',
+    platform: 'macOS (电脑)',
+    recommendedAssetPattern: /ClashX\.dmg$/i,
+  },
+  {
+    id: 'clash-verge-rev',
+    displayName: 'Clash Verge Rev',
+    owner: 'clash-verge-rev',
+    repo: 'clash-verge-rev',
+    Icon: QuestionMarkIcon,
+    colorClass: 'bg-purple-500',
+    platform: '多平台',
+    recommendedAssetPattern: /Clash\.Verge_.*\.exe$/i,
+  },
+  {
+    id: 'flyclash-windows',
+    displayName: 'FlyClash (Windows)',
+    owner: 'GtxFury',
+    repo: 'FlyClash',
+    Icon: WindowsIcon,
+    colorClass: 'bg-indigo-500',
+    platform: 'Windows (PC)',
+    recommendedAssetPattern: /FlyClash.*\.exe$/i,
+  },
+  {
+    id: 'flyclash-android',
+    displayName: 'FlyClash (Android)',
+    owner: 'GtxFury',
+    repo: 'FlyClash-Android',
+    Icon: AndroidIcon,
+    colorClass: 'bg-orange-500',
+    platform: 'Android (手机)',
+    recommendedAssetPattern: /FlyClash.*\.apk$/i,
+  },
+  {
+    id: 'flclash',
+    displayName: 'FlClash',
+    owner: 'chen08209',
+    repo: 'FlClash',
+    Icon: WindowsIcon,
+    colorClass: 'bg-pink-500',
+    platform: 'Windows (PC)',
+    recommendedAssetPattern: /FlClash.*\.exe$/i,
+  },
+  {
+    id: 'nekobox-android',
+    displayName: 'NekoBoxForAndroid',
+    owner: 'MatsuriDayo',
+    repo: 'NekoBoxForAndroid',
+    Icon: AndroidIcon,
+    colorClass: 'bg-teal-500',
+    platform: 'Android (手机)',
+    recommendedAssetPattern: /NekoBoxForAndroid.*\.apk$/i,
+  },
+  {
+    id: 'nekoray',
+    displayName: 'Nekoray',
+    owner: 'MatsuriDayo',
+    repo: 'nekoray',
+    Icon: WindowsIcon,
+    colorClass: 'bg-cyan-500',
+    platform: 'Windows/Linux',
+    recommendedAssetPattern: /nekoray.*\.zip$/i,
+  },
+];
+
 
 const App: React.FC = () => {
   const [releases, setReleases] = useState<GithubRelease[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [mirrorSource, setMirrorSource] = useState<MirrorSource>(MirrorSource.XYZPROXY);
-  const [currentRepo, setCurrentRepo] = useState<RepoType>('v2rayN');
+  const [currentRepoId, setCurrentRepoId] = useState<string>(REPO_CONFIG[0].id);
+
+  const currentConfig = useMemo(() => {
+    return REPO_CONFIG.find(c => c.id === currentRepoId) || REPO_CONFIG[0];
+  }, [currentRepoId]);
 
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
         setReleases([]); // Clear previous data
-        const data = await fetchReleases(currentRepo);
+        const data = await fetchReleases(currentConfig.owner, currentConfig.repo);
         setReleases(data);
         setError(null);
       } catch (err) {
@@ -30,7 +147,7 @@ const App: React.FC = () => {
       }
     };
     loadData();
-  }, [currentRepo]);
+  }, [currentConfig]);
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
@@ -43,7 +160,7 @@ const App: React.FC = () => {
                  <ServerIcon className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 leading-none">v2ray 加速站</h1>
+                <h1 className="text-xl font-bold text-gray-900 leading-none">代理软件加速</h1>
                 <p className="text-xs text-gray-500 mt-1">GitHub Release Mirror</p>
               </div>
             </div>
@@ -61,7 +178,7 @@ const App: React.FC = () => {
                     ))}
                   </select>
                </div>
-               <a href={`https://github.com/2dust/${currentRepo}`} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-900 transition-colors">
+               <a href={`https://github.com/${currentConfig.owner}/${currentConfig.repo}`} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-900 transition-colors">
                   <GitHubIcon className="h-6 w-6" />
                </a>
             </div>
@@ -91,34 +208,30 @@ const App: React.FC = () => {
         {/* Header / Intro */}
         <div className="text-center mb-8">
            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-4">
-             获取最新 {currentRepo}
+             获取最新 {currentConfig.displayName}
            </h2>
            
            {/* Platform Switcher */}
            <div className="flex justify-center mt-6">
-              <div className="bg-white p-1 rounded-xl shadow-sm border border-gray-200 inline-flex">
-                 <button
-                   onClick={() => setCurrentRepo('v2rayN')}
-                   className={`flex items-center px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                     currentRepo === 'v2rayN'
-                       ? 'bg-primary text-white shadow-md'
-                       : 'text-gray-600 hover:bg-gray-50'
-                   }`}
-                 >
-                   <WindowsIcon className={`h-5 w-5 mr-2 ${currentRepo === 'v2rayN' ? 'text-white' : 'text-gray-400'}`} />
-                   Windows (PC)
-                 </button>
-                 <button
-                   onClick={() => setCurrentRepo('v2rayNG')}
-                   className={`flex items-center px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                     currentRepo === 'v2rayNG'
-                       ? 'bg-green-500 text-white shadow-md'
-                       : 'text-gray-600 hover:bg-gray-50'
-                   }`}
-                 >
-                   <AndroidIcon className={`h-5 w-5 mr-2 ${currentRepo === 'v2rayNG' ? 'text-white' : 'text-gray-400'}`} />
-                   Android (手机)
-                 </button>
+              <div className="bg-white p-1 rounded-xl shadow-sm border border-gray-200 inline-flex flex-wrap justify-center gap-1">
+                 {REPO_CONFIG.map((config) => {
+                    const isSelected = config.id === currentRepoId;
+                    const Icon = config.Icon || QuestionMarkIcon;
+                    return (
+                      <button
+                        key={config.id}
+                        onClick={() => setCurrentRepoId(config.id)}
+                        className={`flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                          isSelected
+                            ? `${config.colorClass} text-white shadow-md`
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        <Icon className={`h-5 w-5 mr-2 ${isSelected ? 'text-white' : 'text-gray-400'}`} />
+                        {config.platform}
+                      </button>
+                    )
+                 })}
               </div>
            </div>
 
@@ -131,7 +244,7 @@ const App: React.FC = () => {
         {loading && (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <p className="mt-4 text-gray-500">正在从 GitHub 获取 {currentRepo} 版本信息...</p>
+            <p className="mt-4 text-gray-500">正在从 GitHub 获取 {currentConfig.displayName} 版本信息...</p>
           </div>
         )}
 
@@ -159,6 +272,7 @@ const App: React.FC = () => {
                   release={release} 
                   isLatest={index === 0}
                   mirrorSource={mirrorSource}
+                  recommendedAssetPattern={currentConfig.recommendedAssetPattern}
                 />
                 {index === 0 && <PersonalNotice />}
               </React.Fragment>

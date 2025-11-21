@@ -1,10 +1,8 @@
 import { GithubRelease } from '../types';
 
-const REPO_OWNER = '2dust';
-
-export const fetchReleases = async (repoName: string = 'v2rayN'): Promise<GithubRelease[]> => {
+export const fetchReleases = async (owner: string, repo: string): Promise<GithubRelease[]> => {
   try {
-    const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${repoName}/releases`);
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases`);
     if (!response.ok) {
       throw new Error(`GitHub API Error: ${response.statusText}`);
     }

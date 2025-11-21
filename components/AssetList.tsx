@@ -5,6 +5,7 @@ import { DownloadIcon } from './Icons';
 interface AssetListProps {
   assets: GithubAsset[];
   mirrorSource: MirrorSource;
+  recommendedAssetPattern?: RegExp;
 }
 
 const formatBytes = (bytes: number, decimals = 2) => {
@@ -16,15 +17,16 @@ const formatBytes = (bytes: number, decimals = 2) => {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 };
 
-const AssetList: React.FC<AssetListProps> = ({ assets, mirrorSource }) => {
+const AssetList: React.FC<AssetListProps> = ({ assets, mirrorSource, recommendedAssetPattern }) => {
   const proxyFn = PROXY_MAP[mirrorSource];
 
-  // Prioritize commonly used assets (zip files)
   const sortedAssets = [...assets].sort((a, b) => {
-    const aIsCore = a.name.includes('v2rayN-Core.zip');
-    const bIsCore = b.name.includes('v2rayN-Core.zip');
-    if (aIsCore && !bIsCore) return -1;
-    if (!aIsCore && bIsCore) return 1;
+    if (recommendedAssetPattern) {
+      const aIsRecommended = recommendedAssetPattern.test(a.name);
+      const bIsRecommended = recommendedAssetPattern.test(b.name);
+      if (aIsRecommended && !bIsRecommended) return -1;
+      if (!aIsRecommended && bIsRecommended) return 1;
+    }
     return 0;
   });
 
@@ -50,13 +52,14 @@ const AssetList: React.FC<AssetListProps> = ({ assets, mirrorSource }) => {
         <tbody className="bg-white divide-y divide-gray-200">
           {sortedAssets.map((asset) => {
              const downloadLink = proxyFn(asset.browser_download_url);
+             const isRecommended = recommendedAssetPattern && recommendedAssetPattern.test(asset.name);
              
              return (
               <tr key={asset.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   <div className="flex items-center">
                      <span className="truncate max-w-[150px] sm:max-w-xs" title={asset.name}>{asset.name}</span>
-                     {asset.name.includes('Core') && (
+                     {isRecommended && (
                        <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
                          推荐
                        </span>

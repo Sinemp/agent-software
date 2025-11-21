@@ -8,9 +8,10 @@ interface ReleaseCardProps {
   release: GithubRelease;
   isLatest: boolean;
   mirrorSource: MirrorSource;
+  recommendedAssetPattern?: RegExp;
 }
 
-const ReleaseCard: React.FC<ReleaseCardProps> = ({ release, isLatest, mirrorSource }) => {
+const ReleaseCard: React.FC<ReleaseCardProps> = ({ release, isLatest, mirrorSource, recommendedAssetPattern }) => {
   
   // Default collapse update log for all versions as requested
   const [showFullLog, setShowFullLog] = useState(false);
@@ -108,7 +109,7 @@ const ReleaseCard: React.FC<ReleaseCardProps> = ({ release, isLatest, mirrorSour
           
           {showAssets && (
             <div className="mt-2">
-              <AssetList assets={release.assets} mirrorSource={mirrorSource} />
+              <AssetList assets={release.assets} mirrorSource={mirrorSource} recommendedAssetPattern={recommendedAssetPattern} />
             </div>
           )}
         </div>
