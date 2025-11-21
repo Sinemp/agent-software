@@ -27,13 +27,18 @@ export interface GithubRelease {
 }
 
 export enum MirrorSource {
-  GITHUB = "GitHub (官方)",
   GHPROXY = "GhProxy (推荐)",
-  KGITHUB = "KGithub",
+  FASTGH = "FastGh",
+  GHPS = "GhPs",
+  GHSK = "gh.sk",
+  GITHUB = "GitHub (官方)",
 }
 
 export const PROXY_MAP: Record<MirrorSource, (url: string) => string> = {
-  [MirrorSource.GITHUB]: (url) => url,
   [MirrorSource.GHPROXY]: (url) => `https://mirror.ghproxy.com/${url}`,
-  [MirrorSource.KGITHUB]: (url) => url.replace('github.com', 'kkgithub.com'),
+  [MirrorSource.FASTGH]: (url) => `https://fastgh.com/${url}`,
+  [MirrorSource.GHPS]: (url) => `https://ghps.cc/${url}`,
+  [MirrorSource.GHSK]: (url) => `https://gh.api.99988866.xyz/${url}`,
+  [MirrorSource.GITHUB]: (url) => url,
 };
+
