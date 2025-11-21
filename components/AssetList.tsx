@@ -31,45 +31,45 @@ const AssetList: React.FC<AssetListProps> = ({ assets, mirrorSource, recommended
   });
 
   return (
-    <div className="overflow-hidden border border-gray-200 dark:border-slate-700 rounded-lg mt-4">
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-        <thead className="bg-gray-50 dark:bg-slate-700/50">
+    <div className="overflow-hidden border border-gray-200 rounded-lg mt-4">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               文件名
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider hidden sm:table-cell">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
               大小
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider hidden md:table-cell">
+            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
               下载次数
             </th>
-            <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">
+            <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
               操作
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+        <tbody className="bg-white divide-y divide-gray-200">
           {sortedAssets.map((asset) => {
              const downloadLink = proxyFn(asset.browser_download_url);
              const isRecommended = recommendedAssetPattern && recommendedAssetPattern.test(asset.name);
              
              return (
-              <tr key={asset.id} className="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-slate-100">
+              <tr key={asset.id} className="hover:bg-gray-50 transition-colors">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   <div className="flex items-center">
                      <span className="truncate max-w-[150px] sm:max-w-xs" title={asset.name}>{asset.name}</span>
                      {isRecommended && (
-                       <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">
+                       <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
                          推荐
                        </span>
                      )}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400 hidden sm:table-cell">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
                   {formatBytes(asset.size)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400 hidden md:table-cell">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden md:table-cell">
                   {asset.download_count.toLocaleString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
