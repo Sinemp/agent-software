@@ -123,7 +123,7 @@ const App: React.FC = () => {
            </div>
 
            <p className="max-w-2xl mx-auto text-gray-500 mt-6">
-             国内高速下载镜像，同步 GitHub 官方发布。支持 AI 智能分析更新日志。
+             国内高速下载镜像，同步 GitHub 官方发布。
            </p>
         </div>
 
