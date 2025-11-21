@@ -4,7 +4,6 @@ import { fetchReleases } from './services/githubService';
 import { GithubRelease, MirrorSource } from './types';
 import ReleaseCard from './components/ReleaseCard';
 import { ServerIcon, GitHubIcon, AndroidIcon, WindowsIcon, AppleIcon, QuestionMarkIcon } from './components/Icons';
-import PersonalNotice from './components/PersonalNotice';
 
 interface RepoConfig {
   id: string;
@@ -118,6 +117,46 @@ const REPO_CONFIG: RepoConfig[] = [
     platform: 'Windows/Linux',
     recommendedAssetPattern: /nekoray.*\.zip$/i,
   },
+  {
+    id: 'sing-box-android',
+    displayName: 'sing-box',
+    owner: 'SagerNet',
+    repo: 'sing-box-for-android',
+    Icon: AndroidIcon,
+    colorClass: 'bg-green-600',
+    platform: 'Android (手机)',
+    recommendedAssetPattern: /SFA.*universal-release\.apk$/i,
+  },
+  {
+    id: 'hiddify-next-windows',
+    displayName: 'Hiddify (Windows)',
+    owner: 'hiddify',
+    repo: 'Hiddify-Next',
+    Icon: WindowsIcon,
+    colorClass: 'bg-yellow-500',
+    platform: 'Windows (PC)',
+    recommendedAssetPattern: /Hiddify-Next-Setup.*\.exe$/i,
+  },
+  {
+    id: 'hiddify-next-android',
+    displayName: 'Hiddify (Android)',
+    owner: 'hiddify',
+    repo: 'Hiddify-Next',
+    Icon: AndroidIcon,
+    colorClass: 'bg-yellow-600',
+    platform: 'Android (手机)',
+    recommendedAssetPattern: /Hiddify-Next.*\.apk$/i,
+  },
+  {
+    id: 'hiddify-next-macos',
+    displayName: 'Hiddify (macOS)',
+    owner: 'hiddify',
+    repo: 'Hiddify-Next',
+    Icon: AppleIcon,
+    colorClass: 'bg-neutral-800',
+    platform: 'macOS (电脑)',
+    recommendedAssetPattern: /Hiddify-Next.*\.dmg$/i,
+  },
 ];
 
 
@@ -160,7 +199,7 @@ const App: React.FC = () => {
                  <ServerIcon className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 leading-none">代理软件加速</h1>
+                <h1 className="text-xl font-bold text-gray-900 leading-none">Agent-Software</h1>
                 <p className="text-xs text-gray-500 mt-1">GitHub Release Mirror</p>
               </div>
             </div>
@@ -213,7 +252,7 @@ const App: React.FC = () => {
            
            {/* Platform Switcher */}
            <div className="flex justify-center mt-6">
-              <div className="bg-white p-1 rounded-xl shadow-sm border border-gray-200 inline-flex flex-wrap justify-center gap-1">
+              <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-200 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
                  {REPO_CONFIG.map((config) => {
                     const isSelected = config.id === currentRepoId;
                     const Icon = config.Icon || QuestionMarkIcon;
@@ -221,7 +260,7 @@ const App: React.FC = () => {
                       <button
                         key={config.id}
                         onClick={() => setCurrentRepoId(config.id)}
-                        className={`flex items-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                        className={`flex items-center justify-center text-center px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                           isSelected
                             ? `${config.colorClass} text-white shadow-md`
                             : 'text-gray-600 hover:bg-gray-50'
@@ -274,7 +313,6 @@ const App: React.FC = () => {
                   mirrorSource={mirrorSource}
                   recommendedAssetPattern={currentConfig.recommendedAssetPattern}
                 />
-                {index === 0 && <PersonalNotice />}
               </React.Fragment>
             ))}
           </div>
@@ -283,7 +321,6 @@ const App: React.FC = () => {
 
       <footer className="bg-white border-t border-gray-200 py-8 mt-12">
         <div className="max-w-5xl mx-auto px-4 text-center text-gray-400 text-sm">
-          <p>本项目为非官方镜像站，仅供学习交流使用。</p>
           <p className="mt-2">Data provided by GitHub API • Powered by Cloudflare Pages</p>
         </div>
       </footer>
