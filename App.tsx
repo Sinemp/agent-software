@@ -143,7 +143,6 @@ const App: React.FC = () => {
     const [currentRepoId, setCurrentRepoId] = useState<string>(REPO_CONFIG[0].id);
     const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('default');
-    const [sortOrder, setSortOrder] = useState('default');
   
     const filteredRepos = useMemo(() => {
       let repos = REPO_CONFIG;
