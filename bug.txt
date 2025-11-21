@@ -1,0 +1,69 @@
+22:38:11.326 Running build in Washington, D.C., USA (East) – iad1
+22:38:11.327 Build machine configuration: 2 cores, 8 GB
+22:38:12.175 Cloning github.com/Sinemp/agent-software (Branch: main, Commit: cccb5e4)
+22:38:13.633 Cloning completed: 1.458s
+22:38:13.726 Found .vercelignore
+22:38:13.748 Removed 103 ignored files defined in .vercelignore
+22:38:13.748   /.git/config
+22:38:13.748   /.git/description
+22:38:13.749   /.git/FETCH_HEAD
+22:38:13.749   /.git/HEAD
+22:38:13.749   /.git/hooks/applypatch-msg.sample
+22:38:13.749   /.git/hooks/commit-msg.sample
+22:38:13.749   /.git/hooks/fsmonitor-watchman.sample
+22:38:13.749   /.git/hooks/post-update.sample
+22:38:13.749   /.git/hooks/pre-applypatch.sample
+22:38:13.749   /.git/hooks/pre-commit.sample
+22:38:14.030 Restored build cache from previous deployment (4K1yE4BuhLvSTsTrjuHkqPc47rHT)
+22:38:14.351 Running "vercel build"
+22:38:14.748 Vercel CLI 48.10.5
+22:38:15.534 Installing dependencies...
+22:38:17.649 
+22:38:17.650 added 22 packages in 1s
+22:38:17.651 
+22:38:17.651 78 packages are looking for funding
+22:38:17.651   run `npm fund` for details
+22:38:17.685 Running "npm run build"
+22:38:17.802 
+22:38:17.803 > v2rayn-mirror@1.0.0 build
+22:38:17.803 > vite build
+22:38:17.803 
+22:38:18.210 [36mvite v5.4.21 [32mbuilding for production...[36m[39m
+22:38:18.275 
+22:38:18.275 /index.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+22:38:18.278 transforming...
+22:38:18.328 [32m✓[39m 3 modules transformed.
+22:38:18.330 [31mx[39m Build failed in 87ms
+22:38:18.330 [31merror during build:
+22:38:18.331 [31m[vite:esbuild] Transform failed with 2 errors:
+22:38:18.331 /vercel/path0/App.tsx:146:10: ERROR: The symbol "setSortOrder" has already been declared
+22:38:18.331 /vercel/path0/App.tsx:146:10: ERROR: The symbol "sortOrder" has already been declared[31m
+22:38:18.331 file: [36m/vercel/path0/App.tsx:146:10[31m
+22:38:18.331 [33m
+22:38:18.331 [33mThe symbol "setSortOrder" has already been declared[33m
+22:38:18.331 144|      const [searchTerm, setSearchTerm] = useState('');
+22:38:18.331 145|    const [sortOrder, setSortOrder] = useState('default');
+22:38:18.331 146|      const [sortOrder, setSortOrder] = useState('default');
+22:38:18.331    |            ^
+22:38:18.331 147|    
+22:38:18.331 148|      const filteredRepos = useMemo(() => {
+22:38:18.331 
+22:38:18.331 [33mThe symbol "sortOrder" has already been declared[33m
+22:38:18.331 144|      const [searchTerm, setSearchTerm] = useState('');
+22:38:18.331 145|    const [sortOrder, setSortOrder] = useState('default');
+22:38:18.331 146|      const [sortOrder, setSortOrder] = useState('default');
+22:38:18.332    |            ^
+22:38:18.332 147|    
+22:38:18.332 148|      const filteredRepos = useMemo(() => {
+22:38:18.332 [31m
+22:38:18.332     at failureErrorWithLog (/vercel/path0/node_modules/esbuild/lib/main.js:1472:15)
+22:38:18.332     at /vercel/path0/node_modules/esbuild/lib/main.js:755:50
+22:38:18.332     at responseCallbacks.<computed> (/vercel/path0/node_modules/esbuild/lib/main.js:622:9)
+22:38:18.332     at handleIncomingPacket (/vercel/path0/node_modules/esbuild/lib/main.js:677:12)
+22:38:18.332     at Socket.readFromStdout (/vercel/path0/node_modules/esbuild/lib/main.js:600:7)
+22:38:18.332     at Socket.emit (node:events:519:28)
+22:38:18.332     at addChunk (node:internal/streams/readable:561:12)
+22:38:18.332     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+22:38:18.332     at Readable.push (node:internal/streams/readable:392:5)
+22:38:18.332     at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)[39m
+22:38:18.348 Error: Command "npm run build" exited with 1

@@ -28,26 +28,26 @@ const ReleaseCard: React.FC<ReleaseCardProps> = ({ release, isLatest, mirrorSour
   });
 
   return (
-    <div className={`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8 ${isLatest ? 'ring-2 ring-primary ring-opacity-50' : ''}`}>
+    <div className={`bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700 overflow-hidden mb-8 ${isLatest ? 'ring-2 ring-primary ring-opacity-50' : ''}`}>
       <div className="p-6 sm:p-8">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-slate-50 tracking-tight">
                 {release.name || release.tag_name}
               </h2>
               {isLatest && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 border border-green-200 dark:border-green-700">
                   最新版本
                 </span>
               )}
               {release.prerelease && (
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 border border-yellow-200">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 border border-yellow-200 dark:border-yellow-700">
                   预览版
                 </span>
               )}
             </div>
-            <div className="mt-1 flex items-center text-sm text-gray-500">
+            <div className="mt-1 flex items-center text-sm text-gray-500 dark:text-slate-400">
               <span>发布于 {publishedDate}</span>
               <span className="mx-2">•</span>
               <a href={release.html_url} target="_blank" rel="noreferrer" className="text-primary hover:underline">
@@ -65,7 +65,7 @@ const ReleaseCard: React.FC<ReleaseCardProps> = ({ release, isLatest, mirrorSour
         <div className="mt-6">
           <button 
              onClick={() => setShowFullLog(!showFullLog)}
-             className="flex items-center text-base font-semibold text-gray-900 mb-3 hover:text-primary focus:outline-none"
+             className="flex items-center text-base font-semibold text-gray-900 dark:text-slate-100 mb-3 hover:text-primary focus:outline-none"
           >
             更新日志
             {showFullLog ? (
@@ -73,37 +73,37 @@ const ReleaseCard: React.FC<ReleaseCardProps> = ({ release, isLatest, mirrorSour
             ) : (
                <ChevronDownIcon className="ml-1 h-4 w-4" />
             )}
-            <span className="ml-2 text-xs font-normal text-gray-500">
+            <span className="ml-2 text-xs font-normal text-gray-500 dark:text-slate-400">
               {showFullLog ? '点击收起' : '点击展开'}
             </span>
           </button>
           
            {showFullLog && (
-             <div className="prose prose-sm max-w-none text-gray-600 bg-gray-50 p-4 rounded-lg border border-gray-100 overflow-auto">
+             <div className="prose prose-sm dark:prose-invert max-w-none text-gray-600 dark:text-slate-300 bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg border border-gray-100 dark:border-slate-700 overflow-auto">
                <ReactMarkdown>{release.body}</ReactMarkdown>
              </div>
            )}
         </div>
 
         {/* Assets */}
-        <div className="mt-8 pt-6 border-t border-gray-100">
+        <div className="mt-8 pt-6 border-t border-gray-100 dark:border-slate-700">
           <button 
             onClick={() => setShowAssets(!showAssets)}
             className="w-full flex items-center justify-between text-left focus:outline-none group py-2"
           >
              <div className="flex items-center">
-               <h3 className="text-base font-semibold text-gray-900">下载文件</h3>
-               <span className="ml-3 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-600">
+               <h3 className="text-base font-semibold text-gray-900 dark:text-slate-100">下载文件</h3>
+               <span className="ml-3 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300">
                  加速源: {mirrorSource}
                </span>
-               <span className="ml-2 text-xs text-gray-400 font-normal hidden sm:inline">
+               <span className="ml-2 text-xs text-gray-400 dark:text-slate-500 font-normal hidden sm:inline">
                   ({release.assets.length} 个文件)
                </span>
              </div>
              {showAssets ? (
-               <ChevronUpIcon className="h-5 w-5 text-gray-400 group-hover:text-primary transition-colors" />
+               <ChevronUpIcon className="h-5 w-5 text-gray-400 dark:text-slate-500 group-hover:text-primary transition-colors" />
              ) : (
-               <ChevronDownIcon className="h-5 w-5 text-gray-400 group-hover:text-primary transition-colors" />
+               <ChevronDownIcon className="h-5 w-5 text-gray-400 dark:text-slate-500 group-hover:text-primary transition-colors" />
              )}
           </button>
           

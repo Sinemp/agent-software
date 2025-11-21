@@ -4,6 +4,7 @@ import { fetchReleases } from './services/githubService';
 import { GithubRelease, MirrorSource } from './types';
 import ReleaseCard from './components/ReleaseCard';
 import { ServerIcon, GitHubIcon, AndroidIcon, WindowsIcon, AppleIcon, QuestionMarkIcon } from './components/Icons';
+import ThemeToggle from './components/ThemeToggle';
 
 interface RepoConfig {
   id: string;
@@ -221,10 +222,10 @@ const App: React.FC = () => {
                       ))}
                     </select>
                  </div>
-                 <a href={`https://github.com/${currentConfig.owner}/${currentConfig.repo}`} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-900 transition-colors">
-                    <GitHubIcon className="h-6 w-6" />
-                 </a>
-              </div>
+                                <ThemeToggle />
+                                <a href={`https://github.com/${currentConfig.owner}/${currentConfig.repo}`} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-gray-900 transition-colors">
+                                   <GitHubIcon className="h-6 w-6" />
+                                </a>              </div>
             </div>
           </div>
         </nav>
